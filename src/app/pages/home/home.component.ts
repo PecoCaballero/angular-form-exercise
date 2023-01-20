@@ -53,14 +53,6 @@ export class HomeComponent implements OnInit {
         this.cities = cities;
         this.form.get('city')?.setValue(cities[0]);
       });
-
-    // this.people.push(
-    //   this.formBuilder.group({
-    //     fullName: ['batata', Validators.required],
-    //     relation: ['julia miwa', Validators.required],
-    //     age: [18, Validators.required],
-    //   })
-    // );
   }
 
   getPerson(i: number): FormGroup {

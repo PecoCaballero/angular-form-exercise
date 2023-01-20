@@ -1,0 +1,167 @@
+<h1>Home</h1>
+<hr />
+
+<form autocomplete="off" [formGroup]="form">
+  <div class="mb-4 mt-4 row justify-content-evenly">
+    <div class="col-6 row">
+      <label class="col-form-label col-sm-3">Nombre: </label>
+      <div class="col-sm-9">
+        <input
+          type="text"
+          formControlName="firstName"
+          placeholder="Nombre"
+          class="form-control"
+        />
+        <span
+          *ngIf="controlIsInvalid('firstName')"
+          class="form-text text-danger"
+        >
+          Este campo es obligatorio
+        </span>
+      </div>
+    </div>
+    <div class="col-6 row">
+      <label class="col-form-label col-sm-3">Apellido: </label>
+      <div class="col-sm-9">
+        <input
+          type="text"
+          formControlName="lastName"
+          placeholder="Apellido"
+          class="form-control"
+        />
+        <span
+          *ngIf="controlIsInvalid('lastName')"
+          class="form-text text-danger"
+        >
+          Este campo es obligatorio
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3 row justify-content-evenly">
+    <div class="col-4 row">
+      <label class="col-form-label col-sm-3">Edad:</label>
+      <div class="col-sm-9">
+        <input
+          type="number"
+          formControlName="age"
+          placeholder="Edad"
+          class="form-control"
+          readonly
+          [disabled]="true"
+        />
+        <span *ngIf="controlIsInvalid('age')" class="form-text text-danger">
+          Este campo es obligatorio
+        </span>
+      </div>
+    </div>
+
+    <div class="col-4 row">
+      <label class="col-form-label col-sm-3">Pais:</label>
+      <div class="col-sm-9">
+        <select class="form-select" (change)="changeCountry($event)">
+          <option *ngFor="let country of countries" [value]="country.name">
+            {{ country.name }}
+          </option>
+        </select>
+        <span *ngIf="controlIsInvalid('country')" class="form-text text-danger">
+          Este campo es obligatorio
+        </span>
+      </div>
+    </div>
+
+    <div class="col-4 row">
+      <label class="col-form-label col-sm-4">Ciudad:</label>
+      <div class="col-sm-8">
+        <select class="form-select" (change)="changeCity($event)">
+          <option *ngFor="let city of cities" [value]="city">
+            {{ city }}
+          </option>
+        </select>
+        <span *ngIf="controlIsInvalid('city')" class="form-text text-danger">
+          Este campo es obligatorio
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+  <div class="col">
+    <button class="btn btn-outline-primary mb-4 mt-4" (click)="addPerson()">
+      <i class="bi-plus-lg"></i> Agregar Persona
+    </button>
+    <ng-container formArrayName="people">
+      <div
+        class="row mb-4 justify-content-evenly"
+        *ngFor="let person of people.controls; let i = index"
+        [formGroup]="getPerson(i)"
+      >
+        <div class="col-5 row">
+          <label class="col-form-label col-sm-4"> Nombre completo </label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              placeholder="Nombre completo"
+              class="form-control"
+              [formControl]="getPersonControl(i, 'fullName')"
+            />
+            <span
+              *ngIf="personControlIsInvalid(i, 'fullName')"
+              class="form-text text-danger"
+            >
+              Este campo es obligatorio
+            </span>
+          </div>
+        </div>
+        <div class="col-3 row">
+          <label class="col-form-label col-sm-4"> Parentesco </label>
+          <div class="col-sm-8">
+            <input
+              type="text"
+              placeholder="Parentesco"
+              class="form-control"
+              [formControl]="getPersonControl(i, 'relation')"
+            />
+            <span
+              *ngIf="personControlIsInvalid(i, 'relation')"
+              class="form-text text-danger"
+            >
+              Este campo es obligatorio
+            </span>
+          </div>
+        </div>
+        <div class="col-3 row">
+          <label class="col-form-label col-sm-4"> Edad </label>
+          <div class="col-sm-8">
+            <input
+              type="number"
+              placeholder="Edad"
+              class="form-control"
+              [formControl]="getPersonControl(i, 'age')"
+              [disabled]="true"
+              readonly
+            />
+            <span
+              *ngIf="personControlIsInvalid(i, 'age')"
+              class="form-text text-danger"
+            >
+              Este campo es obligatorio
+            </span>
+          </div>
+        </div>
+        <div class="col-1 d-flex justify-content-end">
+          <div>
+            <button class="btn btn-outline-danger" (click)="removePerson(i)">
+              <i class="bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <hr />
+
+  <button class="btn btn-primary float-end" (click)="enviar()">Enviar</button>
+</form>
